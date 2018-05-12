@@ -23,7 +23,7 @@ func main() {
 	selectI := simpledb.SelectInput{
 		ConsistentRead:   nil,
 		NextToken:        nil,
-		SelectExpression: aws.String("select itemName() from dev_entries limit 2500"),
+		SelectExpression: aws.String("select * from dev_entries limit 2500"),
 	}
 
 	for {
@@ -36,6 +36,8 @@ func main() {
 			//fmt.Println(selectO)
 			totalRecordsRead += len(selectO.Items)
 			fmt.Println("records extracted: ", len(selectO.Items), " - Total records extracted: ", totalRecordsRead)
+			//jsoned, _ := json.MarshalIndent(selectO.Items, "", " ")
+			//fmt.Println(string(jsoned))
 			if selectO.NextToken != nil {
 				selectI.SetNextToken(*selectO.NextToken)
 			} else {
